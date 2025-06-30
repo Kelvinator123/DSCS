@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class = header>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="static/css/Food.css" />
+        <title>Fairvale School Canteen </title>
+        <link rel="manifest" href="static/manifest.json" />
+        <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    </head>
+    <body>
+        <div class="top-bar">
+            <h1 class="heading">Your Canteen!</h1>
+            <a href="Home.html" class="nav-links">Home</a>
+            <input type="search" class="searchbar" placeholder="Search...">
+            <a href="cart.html" class="nav-links" id="cart"><i class="fa fa-shopping-cart"></i></a>
+            {% if session.get('username') %}
+            <a href="/logout" class="nav-links">Logout</a>
+            {% else %}
+            <a href="Login.html" class="nav-links">Login</a>
+            {% endif %}
+        </div>
+
+        <div id = "FoodModal" class = "modal" >
+            <div class="modal-content">
+                <div class="close" onclick="closeModal()">&times;</div>
+                <div class = FoodImageBox>
+                    <img id="modal-image" class="modal-image" src="" alt="">
+                </div>
+                <div class = FoodDetails>
+                    <h1 id="modal-food-name"></h1>
+                    <p id="modal-food-price"></p>
+                    <p id="modal-food-description"></p>
+                    <label for="modal-quantity" style="font-weight:600;">Quantity:</label>
+                    <input type="number" id="modal-quantity" min="1" max = "10" value="1" style="width:60px; margin-left:0.5em; margin-bottom:1em;">
+                    <button class = AddItemButton id="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Add to cart</button>
+                </div>
+            </div>
+        </div>
+
+        <h1 class = subheading>Special Food</h1>
+        <div class = 'ItemSection'>
+            {% for food in SpecialsData %}
+            <div class="FoodItem" onclick = "openModal('{{ food[1] }}', '{{ food[2] }}', '{{ food[3] }}', '{{ food[0] }}')">
+                <img src="{{ food[0] }}" alt="{{ food[1] }}" class="FoodImage">
+                <div class="FoodInfo">
+                    <h1 class="FoodName">{{ food[1] }}</h1>
+                    <p class="FoodPrice">{{ food[3] }}</p>
+                </div>
+                <button class = AddItemButton2><i class="fa fa-plus"></i></button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h1 class = "subheading">Other items</h1>
+        <div class = "ItemSection">
+            {% for food in FoodData %}
+            <div class="FoodItem" onclick = "openModal('{{ food[1] }}', '{{ food[2] }}', '{{ food[3] }}', '{{ food[0] }}')">
+                <img src="{{ food[0] }}" alt="{{ food[1] }}" class="FoodImage">
+                <div class="FoodInfo">
+                    <h1 class="FoodName">{{ food[1] }}</h1>
+                    <p class="FoodPrice">{{ food[3] }}</p>
+                </div>
+                <button class = AddItemButton2><i class="fa fa-plus"></i></button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h1 class = 'subheading'>Drinks</h1>
+        <div class = "ItemSection">
+            {% for drink in DrinksData %}
+            <div class="FoodItem" onclick = "openModal('{{ drink[1] }}', '{{ drink[2] }}', '{{ drink[3] }}', '{{ drink[0] }}')">
+                <img src="{{ drink[0] }}" alt="{{ drink[1] }}" class="FoodImage">
+                <div class="FoodInfo">
+                    <h1 class="FoodName">{{ drink[1] }}</h1>
+                    <p class="FoodPrice">{{ drink[3] }}</p>
+                </div>
+                <button class = AddItemButton2><i class="fa fa-plus"></i></button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <script>
+            function closeModal() {
+                document.getElementById("FoodModal").style.display = "none";
+            }
+
+            document.querySelector('.searchbar').addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                document.querySelectorAll('.FoodItem').forEach(function(item) {
+                    const name = item.querySelector('.FoodName').textContent.toLowerCase();
+                    if (name.includes(query)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+            let currentFood = {};
+
+            function openModal(name, description, price, image) {
+                console.log('success')
+                currentFood = { name, description, price, image }; // Store for later use
+                document.getElementById("modal-food-name").textContent = name;
+                document.getElementById("modal-food-price").textContent = "Price: " + price;
+                document.getElementById("modal-food-description").textContent = description;
+                document.getElementById("modal-image").src = image;
+                document.getElementById("modal-image").alt = name;
+                document.getElementById("FoodModal").style.display = "flex";
+            }
+
+            document.getElementById("add-to-cart-btn").onclick = function() {
+                const quantity = parseInt(document.getElementById("modal-quantity").value) || 1;
+                fetch('/add_to_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        food_name: currentFood.name,
+                        price: currentFood.price,
+                        description: currentFood.description,
+                        image: currentFood.image,
+                        quantity: quantity
+                    })
+                })
+                .then(response => {
+                    if (response.status === 401) {
+                        alert("Please log in to add items to your cart.");
+                        window.location.href = "Login.html";
+                        return;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.success) {
+                        alert("Added to cart!");
+                        closeModal();
+                    } else if (data && data.error) {
+                        alert(data.error);
+                    }
+                });
+            };
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted) {
+                    window.location.reload();
+                }
+            });
+        </script>
+    </body>
+<!--<button onclick="window.print()">Print this page</button>-->

@@ -1,0 +1,128 @@
+body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5em;
+    margin-bottom: 2em;
+    flex-wrap: wrap;
+    z-index: 100;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 1em 0.5em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    border-radius: 12px;
+}
+
+.heading {
+    font-size: 2em;
+    font-weight: 400;
+    color: black;
+    margin: 0 1em;
+    flex-shrink: 0;
+    white-space: nowrap;
+    text-align: center
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.nav-links {
+    color: black;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.nav-links:hover {
+    background: #fdc830;
+    color: #fff;
+}
+
+.cart-section {
+    max-width: 1100px;
+    margin: 2em auto;
+    padding: 2em 1em;
+    background: #fffbe6;
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(243,115,53,0.06);
+}
+
+.subheading {
+    font-size: 1.5em;
+    color: black;
+    font-weight: 700;
+    margin-bottom: 1em;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.cart-table th, .cart-table td {
+    padding: 1em;
+    text-align: left;
+    border-bottom: 1px solid #f0e6d2;
+    font-size: 1.1em;
+}
+
+.cart-table th {
+    background: #fdc830;
+    color: #222;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.cart-table tr:last-child td {
+    border-bottom: none;
+}
+
+.cart-table img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(243,115,53,0.10);
+    display: block;
+}
+
+@media (max-width: 900px) {
+    .cart-section {
+        padding: 1em 0.2em;
+    }
+    .cart-table th, .cart-table td {
+        padding: 0.5em;
+        font-size: 1em;
+    }
+    .cart-table img {
+        width: 80px;
+        height: 60px;
+    }
+    .top-bar {
+        flex-direction: column;
+        gap: 0.5em;
+    }
+}

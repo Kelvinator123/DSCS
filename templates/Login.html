@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self';" />
+        <link rel="stylesheet" href="static/css/login.css" />
+        <title>Fairvale School Canteen </title>
+        <link rel="manifest" href="static/manifest.json" />
+        <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
+    </head>
+    <body id = 'loginpage'>
+        <div id = 'login-container'>
+            <h1 class = "Title">Login</h1>
+            <form action = '/' method = 'POST'>
+                <div class="container">
+                    <div class = "input-container">
+                        <input type = "Email" id="username" name="email" class = inputs placeholder = "Email" required>
+                    </div>
+                    <div class = "input-container">
+                        <input type = "password" id="password" name="password" class = inputs placeholder = "Password" required>
+                    </div>
+                    <input type = "submit" id = "loginsubmit" value = 'Login'>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head class="header">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="static/css/cart.css" />
+    <title>Fairvale School Canteen - Cart</title>
+    <link rel="manifest" href="static/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="top-bar">
+        <h1 class="heading">Your Cart</h1>
+        <div class = "nav-bar">
+            <a href = "Food.html" class = "nav-links">Food</a>
+            <a href="Home.html" class="nav-links">Home</a>
+        </div>
+    </div>
+
+    <div class="cart-section">
+        <h2 class="subheading">Your Orders</h2>
+        {% if orders %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Food Item</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order[1] }}</td>
+                    <td>{{ order[2] }}</td>
+                    <td>{{ order[3] }}</td>
+                    <td>
+                        {% if order[4] %}
+                        <img src="{{ order[4] }}" alt="{{ order[1] }}">
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class = 'checkout-box'>
+            <form action="/checkout" method="post">
+                <button href="/checkout" class="checkout-btn">Go to checkout</button>
+            </form>
+        </div>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+    <script>
+    document.querySelectorAll('.remove-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const orderId = this.getAttribute('data-order-id');
+            fetch('/remove_from_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: 'order_id=' + encodeURIComponent(orderId)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the row from the table
+                    const row = btn.closest('tr');
+                    if (row) row.remove();
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

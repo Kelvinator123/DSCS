@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="static/css/Home.css" />
+    <title>Fairvale School Canteen</title>
+    <link rel="manifest" href="static/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="top-bar">
+        <div class="logo-title">
+            <img src="/static/images/Fairvale_High_School_logo.png" alt="Logo" class="nav-logo">
+            <span class="school-name">Fairvale Canteen</span>
+        </div>
+        <div class="nav-bar">
+            <a href="Home.html" class="nav-links">Home</a>
+            <a href="Food.html" class="nav-links">Menu</a>
+            <a href="cart.html" class="nav-links">Cart</a>
+            {% if session.get('username') %}
+            <a href="/logout" class="nav-links">Logout</a>
+            {% else %}
+            <a href="Login.html" class="nav-links">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-overlay">
+            <h1 class="hero-title">Welcome to Fairvale School Canteen</h1>
+            <p class="hero-subtitle">Nutritious, delicious, and made for you!</p>
+            <a href="Food.html" class="hero-menu-btn">See Our Menu</a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="about">
+        <h2 class="about-header">Canteen at our school</h2>
+        <p class="about-text">
+            At Fairvale High School, our canteen is committed to supporting the health and wellbeing of our students. We follow the NSW Healthy School Canteens Strategy, which means we provide a wide range of nutritious food and drink options to help students make healthy choices every day.
+        </p>
+        <p class="about-text">
+            Our menu is designed to be both delicious and balanced – featuring fresh fruit, wholesome meals, and snacks that fuel learning and activity. We aim to make the healthy choice the easy choice for everyone.
+        </p>
+        <p class="about-text">
+            We’re proud to offer a canteen that promotes better learning, energy, and focus throughout the school day.
+        </p>
+        <p class="about-text">
+            Visit
+            <a href="https://education.nsw.gov.au/schooling/school-community/healthy-canteens" target="_blank">
+                Healthy School Canteens
+            </a>
+            to learn more.
+        </p>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location-container">
+        <div class="location-info" data-aos = "fade-up">
+            <h3>Where to Find Us</h3>
+            <p><strong>Location:</strong> Next to the Library</p>
+            <p><strong>Open During:</strong> Recess 1, Recess 2, and Lunch</p>
+        </div>
+        <img src="/static/images/canteenmap.png" alt="Canteen Map" class="canteen-map" id="map" data-aos = "fade-up">
+    </section>
+
+    <!-- Menu Call-to-Action -->
+    <section class="menu-container">
+        <h2>Discover our menu!</h2>
+        <p>Explore our delicious and nutritious food options.</p>
+        <a href="/Food.html" id="menu-button">Menu</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Fairvale School Canteen &copy; 2023</p>
+        <p>Contact us | <a href="mailto:info@fairvalecanteen.edu">info@fairvalecanteen.edu</a></p>
+    </footer>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head class="header">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="static/css/staff.css" />
+    <title>Fairvale School Canteen - Cart</title>
+    <link rel="manifest" href="static/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="top-bar">
+        <h1 class="heading">All Orders</h1>
+    </div>
+
+    <div class="cart-section">
+        <h2 class="subheading">Orders from All Users</h2>
+        {% if orders %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Food Item</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order[5] }}</td>
+                    <td>{{ order[1] }}</td>
+                    <td>{{ order[2] }}</td>
+                    <td>{{ order[3] }}</td>
+                    <td>
+                        {% if order[4] %}
+                        <img src="{{ order[4] }}" alt="{{ order[2] }}" style="width:120px;height:80px;object-fit:cover;border-radius:10px;">
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No orders have been made yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

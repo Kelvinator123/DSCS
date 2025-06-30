@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head class="header">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="static/css/cart.css" />
+    <title>Fairvale School Canteen - Receipt</title>
+    <link rel="manifest" href="static/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .receipt-container {
+            max-width: 500px;
+            margin: 3em auto;
+            background: #fffbe6;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(243,115,53,0.10);
+            padding: 2em 2em 1.5em 2em;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 1.5em;
+        }
+        .receipt-title {
+            font-size: 2em;
+            font-weight: 800;
+            color: #f37335;
+            margin-bottom: 0.2em;
+        }
+        .receipt-number {
+            font-size: 1.1em;
+            color: #222;
+            margin-bottom: 0.5em;
+        }
+
+        .print-btn {
+            margin-top: 1em;
+            padding: 0.5em 1.5em;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #f37335 0%, #fdc830 100%);
+            color: #222;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            box-shadow: 0 2px 8px rgba(243,115,53,0.10);
+            transition: background 0.2s, color 0.2s, transform 0.1s;
+        }
+        .print-btn:hover, .print-btn:focus {
+            background: linear-gradient(90deg, #fdc830 0%, #f37335 100%);
+            color: #fff;
+            transform: scale(1.04);
+            outline: none;
+        }
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .receipt-table th, .receipt-table td {
+            padding: 0.7em 0.5em;
+            text-align: left;
+            border-bottom: 1px solid #f0e6d2;
+            font-size: 1em;
+        }
+        .receipt-table th {
+            background: #fdc830;
+            color: #222;
+            font-weight: 700;
+        }
+        .receipt-table tr:last-child td {
+            border-bottom: none;
+        }
+        .receipt-total {
+            text-align: right;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #f37335;
+            margin-top: 1em;
+        }
+        .receipt-footer {
+            text-align: center;
+            margin-top: 2em;
+            color: #888;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="receipt-header">
+            <div class="receipt-title">Order Receipt</div>
+            <div class="receipt-number">Receipt #: <strong>{{ number }}</strong></div>
+            <div>Thank you for your order!</div>
+            <button onclick="window.print()" class = "print-btn">
+                Print this page
+            </button>
+        </div>
+        <table class="receipt-table">
+            <thead>
+                <tr>
+                    <th>Food Item</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = 0 %}
+                {% for order in data %}
+                <tr>
+                    <td>{{ order[1] }}</td>
+                    <td>{{ order[2] }}</td>
+                    <td>{{ order[3] }}</td>
+                    {% set total = total + order[3]|float %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="receipt-total">
+            Total: ${{ '%.2f' % total }}
+        </div>
+        <div class="receipt-footer">
+            Please show this receipt at the canteen counter.<br>
+            <a href="Home.html" class="nav-links" style="margin-top:1em;display:inline-block;">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
